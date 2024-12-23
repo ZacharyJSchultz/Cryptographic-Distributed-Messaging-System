@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CS 1653 Project P1 Writeup</title>
+  <style>
+/* BEGIN CHANGES HERE */
+
+/* In this section, you may add CSS styling if desired */
+header {
+  text-align: center;
+}
+
+.emph {
+  font-style: italic;
+}
+
+/* END CHANGES HERE */
+  </style>
+  <body>
+    <header>
+      <h1>CS 1653 Project P1 Writeup</h1>
+      <h2>
+<!-- BEGIN CHANGES HERE -->
+    Zachary Schultz: zjs32@pitt.edu<br>
+    Jordan Shopp: jas749@pitt.edu<br>
+    Alex Zhou: yuz210@pitt.edu<br>
+    Hayden Walker: hdw9@pitt.edu<br>
+    Aidan Lowe: ail39@pitt.edu<br>
+<!-- END CHANGES HERE -->
+      </h2>
+    </header>
+    <section id="group">
+      <h2>1. Group Information</h2>
+<!-- BEGIN CHANGES HERE -->
+
+<p>
+  Explain your planned development process, the strengths of your group, the
+  roles each member will play (and whether they will change), and how you plan to
+  enforce internal deadlines and ensure accountability. (See Task 1 for other
+  questions you should consider answering here.)</p>
+<h3>Planned Development Process</h3>
+<p>
+  For our development process, we plan on primarily sticking with the GitHub repository to track user contributions 
+  and progress. Every time a phase is released, we will aim to complete the requirements as outlined in the phase document. 
+  Furthermore, upon phase release, we will schedule a meeting with all group members to discuss the phase, the work that 
+  needs to get done, and how we will divide said work among ourselves.
+</p>
+<h3>Strength of Group</h3>
+<p>
+  We are all proficient in similar technologies, have excellent teamwork and organization skills, and are able to get work done in an 
+  efficient manner. 
+</p>
+<h3>Roles</h3>
+<p>
+  Instead of forming specific roles for each team member, we have decided to assign work instead. We felt as if it would work
+  better for us if we focused on assigning/splitting up the work and collaborating when necessary, as this will allow us to
+  evenly divide the workload amongst all five of us and provide us with far more versatility and freedom. We will likewise 
+  ensure that every member is involved in the core cryptographic backbone of the project, and we will aim to divide work in 
+  a way that maximizes team satisfaction.
+</p>
+<h3>Internal Deadlines and Accountability</h3>
+<p>
+  We will meet once a week for a brief progress report to discuss what progress we've made, what needs to be done, and who will 
+  be assigned to do it. We will also optionally meet outside of these meetings to get more work done as needed (or if, for example, 
+  two members of the team are collaborating on something, they can meet among themselves to work on their respective part). If someone 
+  were to consistently fail to meet these deadlines or miss these meetings without some sort of valid excuse, we will reassign their 
+  work and reach out to you to discuss our next steps.
+</p>
+
+<!-- END CHANGES HERE -->
+    </section>
+    <section id="design">
+      <h2>2. Design Proposal</h2>
+<!-- BEGIN CHANGES HERE -->
+<h3>System Design</h3>
+<p>
+  <b>How will users be identified? How are users created and deleted?</b><br>
+    Users will be identified by the metadata that is created when an account is created (specifically, their unique username).
+	  Users have the ability to make a new account and delete their own account<br>
+  <b>What metadata is stored about users? How can it be modified?</b>
+  <ul>
+    <li>Username</li>
+    <li>Password</li>
+    <li>Admin Permissions</li>
+    <li>Send Message Permissions</li>
+    <li>View Message Permissions</li>
+    <li>Permission to send DM</li>
+  </ul> 
+  Users are able to modify their own profiles on a client side application and push the changes to the authentication server.<br>
+  <b>What type of resource is stored?</b><br>
+    Chat messages<br>
+  <b>How are resources accesed or viewed?</b><br>
+    The messages will be accessible and read via the console. Users must connect to a resource server to access the resources.<br>
+  <b>How, when and by whom can resources be modified?</b><br>
+    Users can delete their own messages, admins can delete any message.<br>
+  <b>What properties of a user determine whether a resoucre can be accesed?</b><br>
+    Administrator permissions, user privileges such as can they access the group chat<br>
+  <b>How can access be granted and revoked via the authentication server?</b><br>
+    Access control system that only admins can access.
+
+</p>
+<h3>Design Overview</h3>
+<p>
+  The project would be an online messaging platform with a large chatroom and direct messaging features. 
+  Each user would be identified by a unique username that will be used for identification for chat room and direct messages. 
+  Users can sign up to the platform through the authentication server, and they would be able to delete their 
+  own accounts as they wish. There would also be administrators for the platform with the ability to delete user accounts 
+  and messages if they deem it necessary.
+
+  Each user will have their metadata stored on the authentication server, which includes their username, password, and their 
+  permission status regarding administration, message sending and viewing in chat rooms and direct messaging. Users are able 
+  to modify their own profiles on a client side application and push the changes to the authentication server.
+  The resource servers will serve as a more long term storage and the distribution servers for all group chat messages. Each 
+  group will be its own resource server. Permissions are constant accross all servers and users
+  with certain permissions can access all servers. Messages will be pulled and distributed from the servers to users via 
+  websockets. The user would be able to view the message through the client side application. Each user would be able to 
+  delete their own messages and users with administrator privileges would be able to delete other users' messages as well 
+  as other administrators' messages. 
+
+  Access control would be done through authentication tokens which are generated by the authentication servers from the 
+  user’s metadata. These tokens contain the permissions that the users have, and the resource servers will use these tokens 
+  to determine whether the user has permission to access certain resources. The access permissions of the user can be modified 
+  by the authentication server directly for instances such as establishing new direct messaging sections, but are also available to
+  be modified by admins.
+</p>
+
+<!-- END CHANGES HERE -->
+    </section>
+    <section id="properties">
+      <h2>3. Security Properties</h2>
+<!-- BEGIN CHANGES HERE -->
+
+<ul>
+  <li>
+    <b>Property 1: Group Message Access Control.</b> User u can only view or post messages in group g if and only 
+    if user u is a member of group g and has the privileges to do so. Without the property, any user would be able 
+    to access messages in group g, which would be a privacy violation for the users inside group g. It is assumed 
+    that group g will have some kind of access control targeting all users.
+  </li>
+  <li>
+    <b>Property 2 Administrator Privilege Level.</b> There exists multiple levels of administrative privileges. Regular users 
+    will have no administrative privileges. Lower level administrators will have select administrative privileges over 
+    regular users, and high level administrators will have administrative privileges over all other users, including lower 
+    level administrators. This is done to prevent lower level administrators from abusing privileges. This is done on the 
+    assumption that higher level administrators will always behave according to the rules no matter the circumstances.
+  </li>
+  <li>
+    <b>Property 3: Secure Private Messaging.</b> Private messages sent between user u to user v will be secure and private, 
+    the content of the messages will only be visible to user u and v. This would protect their privacy and ensure that their 
+    communications are only visible between themselves.
+  </li>
+  <li>
+    <b>Property 4: Administrator Privileges Assignment.</b> 
+    Users can only be granted administrator privileges by another administrator or the root administrator account provided 
+    by the system. Non-admin users cannot make themselves an admin; doing so could allow malicious users to abuse administrative
+    privileges. This assumes that there is an account provided by the system, the root administrator account, to grant other 
+    users administrator privileges.
+  </li>
+  <li> 
+    <b>Property 5: Private Message Permissions.</b> Only users with permission to send private messages will be allowed to 
+    send private messages. This will provide admins with greater control over what users can and cannot do. Admins always 
+    have permissions to send private messages, and a user u without permission can receive private messages from another 
+    user v with permission, but user u cannot respond to them. This assumes that admins have permission to alter user 
+    permissions to allow them to send or not send private messages.
+  </li>
+  <li>
+    <b>Property 6: Account Deletion Permission.</b> If user u has admin permissions, user u can delete any user’s account. 
+    If user u does not have admin permissions, they can delete their own account only. This ensures that admins can delete 
+    unwanted or harmful accounts and that users can delete their own account if they wish, while preventing the scenario 
+    of a user having their account deleted unwillingly by a non-admin user. This assumes that admins can delete user 
+    accounts.
+  </li>
+  <li>
+    <b>Property 7: Message Deletion Permissions.</b> If a user has permission to send messages, they will also have permission 
+    to delete messages they have previously sent, whether in the group chat or privately. If a user’s permission to send 
+    messages is removed, they will no longer be able to delete messages they have previously sent. An admin can delete any 
+    message they can see (i.e., if they can view the message, they can delete it, no matter what user sent it. Thus, they 
+    cannot delete PMs they are not involved in). Furthermore, a deleted message will have no trace of ever existing, to 
+    ensure users don’t have to worry about anything they deleted reappearing. This assumes messages are viewable and 
+    accessible even after long periods of time.
+  </li>
+  <li>
+    <b>Property 8: Anonymous Messaging.</b> Any message sent by user u, whether private or in the group chat, will be 
+    untraceable to user u; anonymous messaging will encourage users to freely speak their mind, providing a completely free 
+    and open space for conversation and discourse. This assumes that anonymity is prioritized over non-repudiation, and 
+    that users won’t go out of their way to specify who is sending a message (unless they desire to lose their anonymity).
+  </li>
+  <li>
+    <b>Property 9: Non-repudiation.</b> Any message sent by user u, whether private or in the group chat, will clearly 
+    state the username of user u, the sender of the message. This allows for distinction so users can tell who a message 
+    was sent by. It removes any ability for a user to send a message anonymously. Without this, a user who sends a 
+    problematic message may not be able to be identified and held accountable if they do not identify themselves in their 
+    message. This allows for admins to have greater access and ensures users are held accountable for what they say. 
+    This assumes that non-repudiation is prioritized over anonymity, and that admins have the ability to properly control 
+    and punish users for their nefarious actions.
+  </li>
+  <li>
+    <b>Property 10: Message History.</b> Message history (for non-deleted messages) will be preserved upon server and 
+    client restart, and it will only be accessible for users in the specific group g the message was sent in. We can 
+    consider a private message between users u and v to be an immutable 2-person group containing only user u and user v, 
+    meaning only users u and v can see their respective private message history. This makes using the app more convenient 
+    for users, who don’t have to worry about their history being lost upon their client (or the resource server) being 
+    restarted. This assumes messages are viewable and accessible even after long periods of time.
+  </li>
+  <li>
+    <b>Property 11: Unique Username.</b> Each user u must have a distinct username n; the usernames must have distinction 
+    so that users (and the server) can tell each other apart. Without this, users could choose the same username as another 
+    user in an attempt to impersonate them.
+  </li>
+  <li>
+    <b>Property 12: Valid Password.</b> Each user u must have a valid password p, to prevent other users from signing 
+    in to user u’s account. This prevents other users from gaining access to an account that does not belong to them.
+  </li>
+  <li>
+    <b>Property 13: Message Time.</b> Users will be able to see when a message m sent at time t was sent. This makes using 
+    the system more convenient in a variety of ways: it allows users to more adeptly respond to a message (by considering 
+    how long ago it was sent), and allows message history to be traced back to specific times to help admins better govern 
+    their groups. Assume that there are multiple groups.
+  </li>
+  <li>
+    <b>Property 14: Blocked Users.</b> User u can block user v so that when user v sends a message, private or in the shared 
+    group chat, user u does not receive the message. To a third user c, if the message user v sent was in the group chat, 
+    then they will be able to see the message in the group chat. If user u chooses to unblock user v, any new messages that 
+    user v sends after they are unblocked on both private message and group message would be received by user u. This allows 
+    our users to filter who can contact and communicate with them to prevent harassment.
+  </li>
+  <li>
+    <b>Property 15: Change Password.</b> User u can change their password at any time to anything, as long as they know their 
+    old password and the new password is valid. This allows users to seize control of the accessibility of their account, if 
+    they believe that their password has been leaked or their account compromised. This assumes that users will have a 
+    password to sign in to their account.
+  </li>
+  <li>
+    <b>Property 16: Change Username.</b> User u can change their username at any time to anything, as long as they are signed 
+    in and the new username is valid. This allows users to alter their name as their desires and situation changes. Any 
+    location where the user’s username is displayed will change, across all clients, to match their new username. Furthermore, 
+    a username that is already in use would be considered invalid, because the server (and other users) would not be able to 
+    tell two users with the same username apart. This assumes that users have a username, and that there is no anonymity that 
+    would render changing their username useless.
+  </li>
+  <li>
+    <b>Property 17: Root Administrator.</b> A root account exists that has the highest level of administrative privileges 
+    and can grant other users administrative privileges. This is so trustworthy users can be made into admins by the system 
+    administrator(s). This assumes there are multiple levels of administrative privileges.
+  </li>
+</ul>
+
+
+<!-- END CHANGES HERE -->
+    </section>
+    <section id="references">
+      <h2>4. References</h2>
+<!-- BEGIN CHANGES HERE -->
+
+<p>The system’s design is inspired by other messaging applications on the market, such as Discord and Telegram.</p>
+
+<!-- END CHANGES HERE -->
+    </section>
+  </body>
+</html>
+

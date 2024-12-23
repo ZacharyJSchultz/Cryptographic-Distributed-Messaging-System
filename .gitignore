@@ -1,0 +1,31 @@
+# eslint cache
+.eslintcache
+
+# testing
+/coverage
+
+# production
+/build
+
+# build target
+/target
+
+*.class
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+*.class
+
+*.json
+!rs_public_key.json
+
+*.txt
+!rs_private_key_01.txt
+!rs_private_key_02.txt
+!rs_private_key_03.txt
+!private_key.txt
+!public_key.txt

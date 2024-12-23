@@ -2,7 +2,7 @@
 
 This is an adapted repository from a University of Pittsburgh cryptography project; this repo contains the re-uploaded code, as the original is private (hence, only a couple of commits).
 
-This project houses a console-based distributed messaging system -- consisting of an Authentication Server, a Resource Server, and a Client. The project utilizes a client-server architecture to transmit end-to-end encrypted messages between clients in customizable group chats (or private messages), adhering to the latest cryptographic standards with handling for various cryptographic threats.
+This project houses a console-based distributed messaging system -- consisting of an Authentication Server, a Resource Server, and a Client. The project utilizes a client-server architecture to transmit end-to-end encrypted messages between clients in customizable group chats (or private messages), adhering to the latest cryptographic standards with handling for various real-world cryptographic threats.
 
 
 ## Authors
@@ -12,7 +12,7 @@ This project was developed by myself, ZacharyJSchultz, along with JordanShopp, y
 
 ## How To Run This Application
 
-To run the project, Maven must be installed on the local machine. Furthermore, for the project to properly work, public/private key pairs for the AS and RS must be generated. To generate these keypairs, run ASKeyPairGen.java (found at ```src/main/java/com/ciphersquad/chat/AuthenticationServer/ASKeypairGen.java```) and RSKeyPairGen.java (found at ```src/main/java/com/ciphersquad/chat/ResourceServer/RSKeypairGen.java```. Note that for RSKeyPairGen.java, you must specify the IP of the server, as each server should have its own unique keypair).
+To run the project, the latest version of Java and Maven must be installed on the local machine. Furthermore, for the project to properly work, public/private key pairs for the AS and RS must be generated. To generate these keypairs, run ASKeyPairGen.java (found at ```src/main/java/com/ciphersquad/chat/AuthenticationServer/ASKeypairGen.java```) and RSKeyPairGen.java (found at ```src/main/java/com/ciphersquad/chat/ResourceServer/RSKeypairGen.java```). Note that for RSKeyPairGen.java, you must specify the IP of the server, as each server should have its own unique keypair.
 
 Next, the RS, AS, and Client must all be run for the application to function properly. 
 
